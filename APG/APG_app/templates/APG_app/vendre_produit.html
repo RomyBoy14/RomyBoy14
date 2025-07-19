@@ -1,0 +1,44 @@
+<!-- C:\Users\RomyB14\Desktop\Projet_APG_Clean\APG\APG_app\templates\APG_app\vendre_produit.html -->
+
+{% extends 'APG_app/base.html' %}
+{% load static %}
+
+{% block title %}Vendre son Produit - APG{% endblock %}
+
+{% block content %}
+    <section class="form-section">
+        <h2>Vendre Votre Produit Agricole</h2>
+        {% if user_contact != 'Invité' %}
+            <p>Bienvenue, {{ user_contact }} ! Proposez vos produits à la vente.</p>
+        {% else %}
+            <p>Veuillez vous identifier pour proposer vos produits à la vente. <a href="{% url 'login' %}">Connectez-vous</a></p>
+        {% endif %}
+
+        {% if confirmation_message %}
+            <div class="alert alert-success" role="alert">
+                {{ confirmation_message }}
+            </div>
+        {% else %}
+            <form method="post" class="basic-form">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="product_name" class="form-label">Nom du Produit</label>
+                    <input type="text" class="form-control" id="product_name" name="product_name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="quantity" class="form-label">Quantité (ex: 100 kg, 50 régimes)</label>
+                    <input type="text" class="form-control" id="quantity" name="quantity" required>
+                </div>
+                <div class="mb-3">
+                    <label for="contact_info" class="form-label">Votre Email ou Numéro de Téléphone</label>
+                    <input type="text" class="form-control" id="contact_info" name="contact_info" value="{{ user_contact }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="location" class="form-label">Localisation du Produit</label>
+                    <input type="text" class="form-control" id="location" name="location" placeholder="Ville, Quartier" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Proposer à la Vente</button>
+            </form>
+        {% endif %}
+    </section>
+{% endblock %}

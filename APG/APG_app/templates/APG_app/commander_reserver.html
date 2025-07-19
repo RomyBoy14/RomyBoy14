@@ -1,0 +1,60 @@
+<!-- C:\Users\RomyB14\Desktop\Projet_APG_Clean\APG\APG_app\templates\APG_app\commander_reserver.html -->
+
+{% extends 'APG_app/base.html' %}
+{% load static %}
+
+{% block title %}Commander / Réserver - APG{% endblock %}
+
+{% block content %}
+    <section class="form-section">
+        <h2>Commander ou Réserver un Produit</h2>
+        {% if user_contact != 'Invité' %}
+            <p>Bienvenue, {{ user_contact }} ! Remplissez le formulaire ci-dessous.</p>
+        {% else %}
+            <p>Veuillez vous identifier pour commander ou réserver. <a href="{% url 'login' %}">Connectez-vous</a></p>
+        {% endif %}
+
+        {% if confirmation_message %}
+            <div class="alert alert-success" role="alert">
+                {{ confirmation_message }}
+            </div>
+        {% else %}
+            <form method="post" class="basic-form">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="product_name" class="form-label">Produit à Commander/Réserver</label>
+                    <select class="form-select" id="product_name" name="product_name" required>
+                        <option value="">Sélectionnez un produit</option>
+                        {% for product in products %}
+                            <option value="{{ product }}">{{ product }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="contact_info" class="form-label">Votre Email ou Numéro de Téléphone</label>
+                    <input type="text" class="form-control" id="contact_info" name="contact_info" value="{{ user_contact }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="city" class="form-label">Ville de Livraison</label>
+                    <input type="text" class="form-control" id="city" name="city" required>
+                </div>
+                <div class="mb-3">
+                    <label for="delivery_date" class="form-label">Date de Livraison/Récupération</label>
+                    <input type="date" class="form-control" id="delivery_date" name="delivery_date" required>
+                </div>
+                <div class="mb-3">
+                    <label for="delivery_time" class="form-label">Heure de Livraison/Récupération</label>
+                    <input type="time" class="form-control" id="delivery_time" name="delivery_time" required>
+                </div>
+                <div class="mb-3">
+                    <label for="action_type" class="form-label">Type de Demande</label>
+                    <select class="form-select" id="action_type" name="action_type" required>
+                        <option value="commander">Commander</option>
+                        <option value="reserver">Réserver</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Envoyer la Demande</button>
+            </form>
+        {% endif %}
+    </section>
+{% endblock %}

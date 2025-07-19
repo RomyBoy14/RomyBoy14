@@ -1,0 +1,47 @@
+<!-- C:\Users\RomyB14\Desktop\Projet_APG_Clean\APG\APG_app\templates\APG_app\formation.html -->
+
+{% extends 'APG_app/base.html' %}
+{% load static %}
+
+{% block title %}Formation à la Carte - APG{% endblock %}
+
+{% block content %}
+    <section class="form-section">
+        <h2>Formation à la Carte</h2>
+        {% if user_contact != 'Invité' %}
+            <p>Bienvenue, {{ user_contact }} ! Inscrivez-vous ou prenez rendez-vous pour une formation.</p>
+        {% else %}
+            <p>Veuillez vous identifier pour vous inscrire ou prendre rendez-vous. <a href="{% url 'login' %}">Connectez-vous</a></p>
+        {% endif %}
+
+        {% if confirmation_message %}
+            <div class="alert alert-success" role="alert">
+                {{ confirmation_message }}
+            </div>
+        {% else %}
+            <p>Remplissez le formulaire ci-dessous pour une inscription ou une demande de rendez-vous formation, ou contactez-nous directement par WhatsApp.</p>
+            <form method="post" class="basic-form">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="name" class="form-label">Votre Nom Complet</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="contact" class="form-label">Votre Email ou Numéro de Téléphone</label>
+                    <input type="text" class="form-control" id="contact" name="contact" value="{{ user_contact }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="subject" class="form-label">Sujet de la Formation / Question</label>
+                    <textarea class="form-control" id="subject" name="subject" rows="3" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Envoyer la Demande</button>
+            </form>
+            <div class="mt-4">
+                <p>Ou contactez directement l'expert pour une formation :</p>
+                <a href="https://wa.me/+237671189129?text=Bonjour%2C%20j%27aimerais%20en%20savoir%20plus%20sur%20les%20formations%20APG." target="_blank" class="btn btn-whatsapp">
+                    Contacter via WhatsApp
+                </a>
+            </div>
+        {% endif %}
+    </section>
+{% endblock %}

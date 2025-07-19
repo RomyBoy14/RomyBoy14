@@ -1,0 +1,65 @@
+<!-- C:\Users\RomyB14\Desktop\Projet_APG_Clean\APG\APG_app\templates\APG_app\home.html -->
+
+{% extends 'APG_app/base.html' %}
+{% load static %}
+
+{% block title %}Accueil - APG{% endblock %}
+
+{% block content %}
+    <section class="hero-section">
+        <h1>APG : Cultivons l'Avenir, Ensemble.</h1>
+        <p class="lead">Votre partenaire privilégié pour des projets agropastoraux réussis et durables.</p>
+        <a href="#services" class="btn btn-primary">Découvrir nos services</a>
+    </section>
+
+    <section id="about" class="info-section">
+        <h2>Qui sommes-nous ?</h2>
+        <p>
+            **Agro Progressiste Group (APG)** est une entreprise dynamique dédiée à l'innovation dans les domaines de l'agriculture et de l'élevage. Nous croyons en un avenir où l'innovation et la durabilité vont de pair pour nourrir le monde. Forts de notre expertise, nous accompagnons les agriculteurs et les entrepreneurs dans la réalisation de leurs projets, de la conception à la commercialisation.
+        </p>
+        <p>
+            Notre équipe est composée d'agronomes, de vétérinaires et de spécialistes du développement rural, tous passionnés par leur métier et engagés à fournir des solutions concrètes et adaptées aux défis du secteur agropastoral.
+        </p>
+        <p>La date actuelle est : <strong>{{ current_time }}</strong>.</p>
+    </section>
+
+    <section id="services" class="services-section">
+        <h2>Nos Services</h2>
+        <div class="service-grid">
+            <div class="service-item">
+                <img src="{% static 'APG_app/img/conseil.png' %}" alt="Conseils Agricoles" class="service-img">
+                <h3>Conseils & Suivi Agricole</h3>
+                <p>Bénéficiez d'un accompagnement expert pour optimiser vos rendements. <a href="{% url 'conseils_expert' %}">Prendre rendez-vous</a></p>
+            </div>
+            <div class="service-item">
+                <img src="{% static 'APG_app/img/vente.png' %}" alt="Vente de Produits" class="service-img">
+                <h3>Achat & Vente de Produits</h3>
+                <p>Accédez à une sélection de produits de qualité ou proposez les vôtres. <a href="{% url 'acheter_produit' %}">Acheter</a> | <a href="{% url 'vendre_produit' %}">Vendre</a></p>
+            </div>
+            <div class="service-item">
+                <img src="{% static 'APG_app/img/formation.png' %}" alt="Formations Spécialisées" class="service-img">
+                <h3>Formations Spécialisées</h3>
+                <p>Développez vos compétences grâce à nos programmes adaptés. <a href="{% url 'formation' %}">S'inscrire</a></p>
+            </div>
+            <div class="service-item">
+                <img src="{% static 'APG_app/img/autres_services.png' %}" alt="Autres Services" class="service-img">
+                <h3>Commandes & Réservations</h3>
+                <p>Facilitez l'acquisition de vos produits agricoles. <a href="{% url 'commander_reserver' %}">Commander/Réserver</a></p>
+            </div>
+        </div>
+    </section>
+
+    <section class="info-section">
+        <h2>Notre Mission</h2>
+        <p>
+            Notre mission est de promouvoir une agriculture et un élevage modernes, productifs et respectueux de l'environnement. Nous nous engageons à :
+        </p>
+        <ul>
+            <li>**Innover :** Intégrer les dernières technologies et pratiques pour améliorer l'efficacité.</li>
+            <li>**Accompagner :** Fournir un soutien technique et stratégique personnalisé.</li>
+            <li>**Former :** Renforcer les capacités des acteurs du secteur.</li>
+            <li>**Développer :** Contribuer à la sécurité alimentaire et au développement économique durable.</li>
+        </ul>
+        <p>Contactez-nous pour un devis personnalisé !</p>
+    </section>
+{% endblock %}

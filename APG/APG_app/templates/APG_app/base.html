@@ -1,0 +1,212 @@
+{# C:\Users\RomyB14\Desktop\Projet_APG_Clean\APG\APG_app\templates\APG_app\base.html #}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}APG - Agro Progressiste Group{% endblock %}</title>
+
+    {# Lien vers Bootstrap CSS via CDN #}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    {# Lien vers votre fichier CSS local #}
+    <link rel="stylesheet" href="{% static 'APG_app/css/style.css' %}">
+
+    <style>
+        /* Styles de base pour l'ensemble du site */
+        body {
+            font-family: 'Inter', sans-serif; /* Utilisation de la police Inter */
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8; /* Arrière-plan clair */
+            color: #333;
+        }
+        header {
+            background-color: #4CAF50; /* Vert pour l'en-tête */
+            color: white;
+            padding: 1.5em 0;
+            text-align: center;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        nav {
+            background-color: #333; /* Barre de navigation foncée */
+            padding: 0.8em 20px; /* Ajout de padding horizontal pour l'espace */
+            border-radius: 8px;
+            margin: 10px auto;
+            max-width: 90%;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex; /* Utilisation de flexbox pour aligner les éléments */
+            justify-content: space-between; /* Aligner les éléments aux extrémités */
+            align-items: center; /* Alignement vertical */
+            flex-wrap: wrap; /* Permet aux éléments de passer à la ligne sur petits écrans */
+            gap: 20px; /* Espace entre la barre de recherche et les liens */
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex; /* Utilisation de flexbox pour les liens de navigation */
+            flex-wrap: wrap;
+            gap: 10px; /* Espacement entre les liens */
+        }
+        nav ul li {
+            display: inline-block;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        nav ul li a:hover {
+            background-color: #555;
+        }
+        .search-bar {
+            display: flex;
+        }
+        .search-bar input[type="text"] {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px 0 0 5px;
+            outline: none;
+            font-size: 0.9em;
+        }
+        .search-bar button {
+            background-color: #28a745; /* Vert pour le bouton de recherche */
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .search-bar button:hover {
+            background-color: #218838;
+        }
+        .container {
+            padding: 20px;
+            max-width: 1000px;
+            margin: 30px auto;
+            background-color: white;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+        footer {
+            text-align: center;
+            padding: 1.5em 0;
+            background-color: #eee;
+            color: #555;
+            margin-top: 40px;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            box-shadow: 0 -4px 8px rgba(0,0,0,0.05);
+        }
+        .contact-info {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #ddd;
+            display: flex; /* Utilisation de flexbox pour aligner horizontalement */
+            flex-wrap: wrap; /* Permet aux éléments de passer à la ligne si l'espace est insuffisant */
+            justify-content: center; /* Centrer les éléments de contact */
+            gap: 20px; /* Espace entre les éléments de contact */
+        }
+        .contact-info span {
+            margin: 0;
+            font-size: 0.95em;
+        }
+        .contact-info a {
+            color: #4CAF50;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .contact-info a:hover {
+            color: #333;
+        }
+
+        /* Styles responsifs pour la navigation */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                padding: 1em;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            nav ul {
+                flex-direction: column; /* Empile les liens verticalement */
+                width: 100%;
+                text-align: left;
+            }
+            nav ul li {
+                display: block;
+                margin: 5px 0;
+            }
+            .search-bar {
+                width: 90%;
+                margin: 0;
+            }
+            .search-bar input[type="text"] {
+                flex-grow: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Bienvenue chez APG - Agro Progressiste Group</h1>
+    </header>
+
+    <nav>
+        {# La barre de recherche est placée en premier pour être à l'extrême gauche #}
+        <form class="search-bar" action="{% url 'acheter_produit' %}" method="get"> {# La recherche redirige vers la page d'achat #}
+            <input type="text" name="q" placeholder="Rechercher un produit...">
+            <button type="submit">Rechercher</button>
+        </form>
+        {# Les liens de navigation #}
+        <ul>
+            <li><a href="{% url 'home' %}">Accueil</a></li>
+            <li><a href="{% url 'acheter_produit' %}">Acheter un produit</a></li>
+            <li><a href="{% url 'commander_reserver' %}">Commander/Réserver</a></li>
+            <li><a href="{% url 'vendre_produit' %}">Vendre son produit</a></li>
+            <li><a href="{% url 'formation' %}">Formation à la carte</a></li>
+            <li><a href="{% url 'conseils_expert' %}">Conseils</a></li>
+            {% if request.session.user_contact %}
+                <li><a href="{% url 'dashboard' %}">Mon Compte ({{ request.session.user_contact }})</a></li>
+                <li><a href="{% url 'logout' %}">Déconnexion</a></li>
+            {% else %}
+                <li><a href="{% url 'login' %}">Connexion</a></li>
+            {% endif %}
+            <li><a href="{% url 'admin:index' %}">Admin</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        {% block content %}
+            <!-- Le contenu spécifique des pages filles ira ici -->
+        {% endblock %}
+    </div>
+
+    <footer>
+        <div class="contact-info">
+            <span>Contactez-nous :</span>
+            <span>Email: <a href="mailto:contact@apg.com">www.francklieugop@gmail.com</a></span>
+            <span>WhatsApp: <a href="https://wa.me/+237671189129" target="_blank">+237 71189129</a></span>
+            <span>Facebook: <a href="https://facebook.com/APG_Agro" target="_blank">APG_Agro</a></span>
+            <span>Appel simple: <a href="tel:+237671189129">+237 671189129</a></span>
+        </div>
+        <p>&copy; 2025 APG. Tous droits réservés.</p>
+    </footer>
+
+    {# Bootstrap JavaScript via CDN #}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

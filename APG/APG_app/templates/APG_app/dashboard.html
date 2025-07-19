@@ -1,0 +1,23 @@
+<!-- C:\Users\RomyB14\Desktop\Projet_APG_Clean\APG\APG_app\templates\APG_app\dashboard.html -->
+
+{% extends 'APG_app/base.html' %}
+{% load static %}
+
+{% block title %}Mon Compte - APG{% endblock %}
+
+{% block content %}
+    <section class="info-section">
+        <h2>Bienvenue, {{ user_contact }} !</h2>
+        <p>Vous êtes connecté(e) à votre espace APG. Utilisez les liens de navigation ci-dessus pour accéder à nos services.</p>
+        <div class="dashboard-links">
+            <a href="{% url 'acheter_produit' %}" class="btn btn-primary">Acheter un produit</a>
+            <a href="{% url 'commander_reserver' %}" class="btn btn-secondary">Commander/Réserver</a>
+            <a href="{% url 'vendre_produit' %}" class="btn btn-success">Vendre son produit</a>
+            <a href="{% url 'formation' %}" class="btn btn-info">S'inscrire à une formation</a>
+            <a href="{% url 'conseils_expert' %}" class="btn btn-warning">Demander un conseil</a>
+        </div>
+        <div class="mt-4">
+            <a href="{% url 'logout' %}" class="btn btn-danger">Déconnexion</a>
+        </div>
+    </section>
+{% endblock %}

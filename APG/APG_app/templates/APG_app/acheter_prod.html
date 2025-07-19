@@ -1,0 +1,92 @@
+<!-- C:\Users\RomyB14\Desktop\Projet_APG_Clean\APG\APG_app\templates\APG_app\acheter_produit.html -->
+
+{% extends 'APG_app/base.html' %}
+{% load static %}
+
+{% block title %}Acheter un Produit - APG{% endblock %}
+
+{% block content %}
+    <section class="product-listing-section">
+        <h2>Acheter un Produit Agricole</h2>
+        {% if user_contact != 'Invité' %}
+            <p>Bienvenue, {{ user_contact }} ! Découvrez nos produits disponibles.</p>
+        {% else %}
+            <p>Découvrez nos produits disponibles. <a href="{% url 'login' %}">Connectez-vous</a> pour une meilleure expérience.</p>
+        {% endif %}
+
+        <div class="product-grid">
+            {% for product in products %}
+                <div class="product-item">
+                    <img src="https://placehold.co/200x150/4CAF50/FFFFFF?text={{ product|urlencode }}" alt="Image de {{ product }}" class="product-img">
+                    <h3>{{ product }}</h3>
+                    <p>Prix : Sur demande</p>
+                    <button class="btn btn-success buy-button" data-product="{{ product }}">Acheter</button>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div id="payment-modal" class="modal" style="display:none;">
+            <div class="modal-content">
+                <span class="close-button">&times;</span>
+                <h3>Paiement pour <span id="modal-product-name"></span></h3>
+                <p>Veuillez choisir votre méthode de paiement :</p>
+                <div class="payment-options">
+                    {% for method in payment_methods %}
+                        <button class="btn btn-payment" data-method="{{ method }}">{{ method }}</button>
+                    {% endfor %}
+                </div>
+                <div id="payment-details" style="display:none; margin-top: 20px;">
+                    <p>Pour payer via <span id="selected-payment-method"></span>, veuillez envoyer le montant à :</p>
+                    <p><strong>Numéro : +237 671189129</strong></p>
+                    <p>Après le paiement, veuillez nous contacter via WhatsApp avec la preuve de transaction et le nom du produit.</p>
+                    <a href="https://wa.me/+237671189129?text=Bonjour%2C%20j%27ai%20effectu%C3%A9%20un%20paiement%20pour%20le%20produit%20%5BNOM_DU_PRODUIT%5D.%20Voici%20ma%20preuve%20de%20transaction." target="_blank" class="btn btn-whatsapp mt-3">
+                        Contacter via WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const buyButtons = document.querySelectorAll('.buy-button');
+            const paymentModal = document.getElementById('payment-modal');
+            const closeModalButton = document.querySelector('.close-button');
+            const modalProductName = document.getElementById('modal-product-name');
+            const paymentOptionButtons = document.querySelectorAll('.btn-payment');
+            const paymentDetails = document.getElementById('payment-details');
+            const selectedPaymentMethod = document.getElementById('selected-payment-method');
+            const whatsappLink = document.querySelector('.btn-whatsapp');
+
+            let currentProduct = '';
+
+            buyButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    currentProduct = this.dataset.product;
+                    modalProductName.textContent = currentProduct;
+                    paymentModal.style.display = 'block';
+                    paymentDetails.style.display = 'none'; // Cacher les détails de paiement au début
+                    whatsappLink.href = `https://wa.me/+237671189129?text=Bonjour%2C%20j%27ai%20effectu%C3%A9%20un%20paiement%20pour%20le%20produit%20${encodeURIComponent(currentProduct)}.%20Voici%20ma%20preuve%20de%20transaction.`;
+                });
+            });
+
+            closeModalButton.addEventListener('click', function() {
+                paymentModal.style.display = 'none';
+            });
+
+            window.addEventListener('click', function(event) {
+                if (event.target == paymentModal) {
+                    paymentModal.style.display = 'none';
+                }
+            });
+
+            paymentOptionButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const method = this.dataset.method;
+                    selectedPaymentMethod.textContent = method;
+                    paymentDetails.style.display = 'block';
+                });
+            });
+        });
+    </script>
+{% endblock %}

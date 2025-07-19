@@ -1,0 +1,47 @@
+<!-- C:\Users\RomyB14\Desktop\Projet_APG_Clean\APG\APG_app\templates\APG_app\conseils_expert.html -->
+
+{% extends 'APG_app/base.html' %}
+{% load static %}
+
+{% block title %}Conseils d'Expert - APG{% endblock %}
+
+{% block content %}
+    <section class="form-section">
+        <h2>Demander un Conseil d'Expert</h2>
+        {% if user_contact != 'Invité' %}
+            <p>Bienvenue, {{ user_contact }} ! Posez votre question à nos experts.</p>
+        {% else %}
+            <p>Veuillez vous identifier pour demander un conseil. <a href="{% url 'login' %}">Connectez-vous</a></p>
+        {% endif %}
+
+        {% if confirmation_message %}
+            <div class="alert alert-success" role="alert">
+                {{ confirmation_message }}
+            </div>
+        {% else %}
+            <p>Remplissez le formulaire ci-dessous pour poser votre question, ou contactez-nous directement par WhatsApp.</p>
+            <form method="post" class="basic-form">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="name" class="form-label">Votre Nom Complet</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="contact" class="form-label">Votre Email ou Numéro de Téléphone</label>
+                    <input type="text" class="form-control" id="contact" name="contact" value="{{ user_contact }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="query" class="form-label">Votre Question ou Sujet de Conseil</label>
+                    <textarea class="form-control" id="query" name="query" rows="5" placeholder="Ex: J'ai des problèmes de mildiou sur mes pommes de terre, que faire ? Ou : Comment puis-je améliorer la productivité de mon élevage de poulets ?"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Envoyer la Demande de Conseil</button>
+            </form>
+            <div class="mt-4">
+                <p>Ou contactez directement l'expert pour un conseil :</p>
+                <a href="https://wa.me/+237671189129?text=Bonjour%2C%20j%27aimerais%20obtenir%20un%20conseil%20agricole." target="_blank" class="btn btn-whatsapp">
+                    Contacter via WhatsApp
+                </a>
+            </div>
+        {% endif %}
+    </section>
+{% endblock %}
